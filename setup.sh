@@ -20,11 +20,22 @@ sudo cp ~/AppImage/neovim-image/nvim.appimage /usr/bin/nvim
 export PATH=~/AppImage/neovim-image/nvim.appimage/:$PATH
 
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.config/nvim/bundle/Vundle.vim
-git clone https://github.com/ryangmolina/dotfiles ~/dotfiles
-cp ~/dotfiles/init.vim ~/.config/nvim/init.vim
-cp ~/dotfiles/.vimrc ~/.vimrc
+git clone https://github.com/ryangmolina/dotfiles ./dotfiles
+cp ./dotfiles/init.vim ~/.config/nvim/init.vim
+cp ./dotfiles/.vimrc ~/.vimrc
 nvim +PluginInstall +qall
 echo "[DONE] Vim + Neovim"
+
+echo "[INSTALL] Silversearcher"
+sudo apt-get install silversearcher-ag
+echo "[DONE]"
+
+echo "[INSTALL] OTHERS"
+git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
+
+echo 'source-file "${HOME}/.tmux-themepack/basic.tmuxtheme"' >> ~/.tmux.conf
+echo 'export TERM="xterm-256color"' >> ~/.bashrc
+echo "[DONE] OTHERS"
 
 echo "[INSTALL] Docker"
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
@@ -32,6 +43,9 @@ sudo apt-get install docker.io
 sudo systemctl start docker
 sudo systemctl enable docker
 docker --version
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
 
 sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
